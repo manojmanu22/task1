@@ -1,0 +1,54 @@
+import java.util.Scanner;
+
+class RandomNumberGenerator {
+    public int generate(int max, int min) {
+        return (int) (Math.random() * (max - min + 1) + min);
+    }
+}
+
+public class NumberGuessingGame {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        RandomNumberGenerator rng = new RandomNumberGenerator();
+        int totalAttempts = 0;
+        int totalWins = 0;
+
+        while (true) {
+            System.out.println("Enter the minimum number:");
+            int minimum = scanner.nextInt();
+            System.out.println("Enter the maximum number:");
+            int maximum = scanner.nextInt();
+            scanner.nextLine();
+            int correctNumber = rng.generate(maximum, minimum);
+            int attempts = 0;
+
+            while (true) {
+                System.out.println("Guess a number between " + minimum + " and " + maximum);
+                int guess = scanner.nextInt();
+                attempts++;
+                if (guess > correctNumber) {
+                    System.out.println("IT'S GREATER");
+                } else if (guess < correctNumber) {
+                    System.out.println("IT'S LOWER");
+                } else {
+                    System.out.println("CORRECT GUESS");
+                    totalWins++;
+                    break;
+                }
+            }
+
+            totalAttempts += attempts;
+            System.out.println("ATTEMPTS = " + attempts);
+            System.out.println("WINS = " + totalWins);
+            double winRate = (double) totalWins / totalAttempts * 100;
+            System.out.printf("YOUR WIN RATE IS %.2f%%\n", winRate);
+            System.out.println("Do you want to play again (y/n)?");
+            String playAgain = scanner.next();
+            if (!playAgain.equalsIgnoreCase("y")) {
+                scanner.close();
+                System.exit(0);
+            }
+            scanner.nextLine();
+        }
+    }
+}
